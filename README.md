@@ -45,7 +45,7 @@ yosys
 ```
 <div align="center">
 
-
+<img width="1024" height="1024" alt="yosys" src="https://github.com/user-attachments/assets/5985d5d4-6747-4e9f-b0b1-7155fd36c36c" />
 
 </div>
 
@@ -58,7 +58,7 @@ read_verilog -I /home/chittesh/VLSI/VSDBabySoC/src/include /home/chittesh/VLSI/V
 ```
 <div align="center">
 
-
+<img width="1024" height="1024" alt="read_top_level" src="https://github.com/user-attachments/assets/89dc2a79-4ae9-4da3-8d67-804c31875acf" />
 
 </div>
 
@@ -71,7 +71,7 @@ read_liberty -lib /home/chittesh/VLSI/VSDBabySoC/src/lib/sky130_fd_sc_hd__tt_025
 ```
 <div align="center">
 
-
+<img width="1024" height="1024" alt="load_liberity_files" src="https://github.com/user-attachments/assets/89daaa98-015e-4941-bbf0-026e87ec84dd" />
 
 </div>
 
@@ -82,7 +82,25 @@ synth -top vsdbabysoc
 ```
 <div align="center">
 
+<img width="1024" height="1024" alt="synth_top1" src="https://github.com/user-attachments/assets/f96e693c-5ca2-479b-bb10-da7362dd02ad" />
 
+</div>
+
+<div align="center">
+
+<img width="1024" height="1024" alt="synth_top2" src="https://github.com/user-attachments/assets/f5181295-e9aa-4ed0-98e5-bd0389026d04" />
+
+</div>
+
+<div align="center">
+
+<img width="1024" height="1024" alt="synth_top3" src="https://github.com/user-attachments/assets/d8731fd6-b4d2-44bc-9d55-390411dc9d51" />
+
+</div>
+
+<div align="center">
+
+<img width="1024" height="1024" alt="synth_top4" src="https://github.com/user-attachments/assets/723ca445-4f19-4739-8374-43cf420abb15" />
 
 </div>
 
@@ -93,7 +111,7 @@ dfflibmap -liberty /home/chittesh/VLSI/VSDBabySoC/src/lib/sky130_fd_sc_hd__tt_02
 ```
 <div align="center">
 
-
+<img width="1024" height="1024" alt="dfflibmap" src="https://github.com/user-attachments/assets/758d74a3-06c3-4dcf-a7cf-4605935ff7d4" />
 
 </div>
 
@@ -105,7 +123,13 @@ abc -liberty /home/chittesh/VLSI/VSDBabySoC/src/lib/sky130_fd_sc_hd__tt_025C_1v8
 ```
 <div align="center">
 
+<img width="1024" height="1024" alt="abc1" src="https://github.com/user-attachments/assets/9d8d62aa-d01d-42ea-9990-420ca554fce2" />
 
+</div>
+
+<div align="center">
+
+<img width="1024" height="1024" alt="abc2" src="https://github.com/user-attachments/assets/7e601a06-4f49-406e-95ae-d75db3f89137" />
 
 </div>
 
@@ -119,7 +143,7 @@ rename -enumerate
 ```
 <div align="center">
 
-
+<img width="1024" height="1024" alt="clean_up_rename" src="https://github.com/user-attachments/assets/69f3a301-3f69-4a83-8ff3-5c56ab257de6" />
 
 </div>
 
@@ -131,7 +155,7 @@ write_verilog -noattr /home/chittesh/VLSI/VSDBabySoC/output/post_synth_sim/vsdba
 ```
 <div align="center">
 
-
+<img width="1024" height="1024" alt="stat_netlist" src="https://github.com/user-attachments/assets/8405bdf4-2d4f-4e64-8944-a6e3af6d94e3" />
 
 </div>
 
@@ -171,7 +195,7 @@ gtkwave post_synth_sim.vcd
 ```
 <div align="center">
 
-
+<img width="1024" height="1024" alt="post_synth_sim_out" src="https://github.com/user-attachments/assets/ce24435c-bf0f-4826-b7b1-c9fd5c5fdac6" />
 
 </div>
 
