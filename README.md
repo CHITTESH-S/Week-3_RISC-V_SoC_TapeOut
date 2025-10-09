@@ -221,9 +221,9 @@ diff -u functional.out gls.out > functional_vs_gls.diff
 ## 📦 Deliverables (Part-1)
 
 - 📄 `synth.log` — full Yosys transcript
-- 🧾 `pre_synth_sim.out` and `functional.out` — simulation output logs
+- 🧾 `pre_synth_sim.out` — simulation output logs
 - 🧪 `pre_synth_sim.vcd` (or `.wlf`) — GLS waveform dump
-- 🧾 `post_synth_sim.out` and `functional.out` — simulation output logs
+- 🧾 `post_synth_sim.out` — simulation output logs
 - 🧪 `post_synth_sim.vcd` (or `.wlf`) — GLS waveform dump
 - 🧾 `vsdbabysoc.synth.v` — synthesized netlist
 - 🖼️ GTKWave screenshots showing comparison
