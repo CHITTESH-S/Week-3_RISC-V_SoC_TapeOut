@@ -203,4 +203,40 @@ gtkwave post_synth_sim.vcd
 
 ---
 
+## 🧾 How to compare GLS vs RTL outputs
 
+- 📝 Save both simulation outputs as logs: `functional.out` (RTL) and `gls.out` (GLS).
+- 🔁 Use `diff` for textual comparison:
+
+```bash
+diff -u functional.out gls.out > functional_vs_gls.diff
+```
+
+- 🖼️ For waveforms: open both `.vcd` files in GTKWave and overlay or visually compare signals (top-level outputs, clocks, resets, and key internal signals).
+
+- ✅ Attach examples of matching vectors and at least one GTKWave screenshot showing identical outputs for your deliverable.
+
+---
+
+## 📦 Deliverables (Part-1)
+
+- 📄 `synth.log` — full Yosys transcript
+- 🧾 `pre_synth_sim.out` and `functional.out` — simulation output logs
+- 🧪 `pre_synth_sim.vcd` (or `.wlf`) — GLS waveform dump
+- 🧾 `post_synth_sim.out` and `functional.out` — simulation output logs
+- 🧪 `post_synth_sim.vcd` (or `.wlf`) — GLS waveform dump
+- 🧾 `vsdbabysoc.synth.v` — synthesized netlist
+- 🖼️ GTKWave screenshots showing comparison
+
+---
+
+## 📝 Short note — GLS vs Functional simulation
+
+```
+I performed Gate-Level Simulation (GLS) using the synthesized netlist `vsdbabysoc.synth.v` and the same testbench/stimulus used for the Week-2 functional simulation. The GLS waveform (`post_synth_sim.vcd`) was compared against the functional waveform both visually (GTKWave screenshots) and textually (diff of output logs `functional.out` vs `post_synth_sim.out`).
+
+Result: The outputs matched for all applied test vectors. No functional mismatches were observed.
+
+Attached: synthesis_logs.txt, vsdbabysoc.synth.v, post_synth_sim.vcd, waveform screenshots, functional_vs_gls.diff.
+```
+---
