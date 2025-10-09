@@ -233,10 +233,10 @@ diff -u functional.out gls.out > functional_vs_gls.diff
 ## 📝 Short note — GLS vs Functional simulation
 
 ```
-I performed Gate-Level Simulation (GLS) using the synthesized netlist `vsdbabysoc.synth.v` and the same testbench/stimulus used for the Week-2 functional simulation. The GLS waveform (`post_synth_sim.vcd`) was compared against the functional waveform both visually (GTKWave screenshots) and textually (diff of output logs `functional.out` vs `post_synth_sim.out`).
+I performed Gate-Level Simulation (GLS) using the synthesized netlist `vsdbabysoc.synth.v` and the same testbench/stimulus used for the Week-2 functional simulation. The GLS waveform (`post_synth_sim.vcd`) was compared against the functional waveform both visually (GTKWave screenshots).
 
 Result: The outputs matched for all applied test vectors. No functional mismatches were observed.
 
-Attached: synthesis_logs.txt, vsdbabysoc.synth.v, post_synth_sim.vcd, waveform screenshots, functional_vs_gls.diff.
+Attached: synth.log, pre_synth_sim.out, pre_synth_sim.vcd, post_synth_sim.out, post_synth_sim.vcd, vsdbabysoc.synth.v, waveform screenshots.
 ```
 ---
