@@ -222,7 +222,7 @@ diff -u functional.out gls.out > functional_vs_gls.diff
 
 </div>
 
-**Pre-Synthesis Simulation**
+**Post-Synthesis Simulation**
 
 <div align="center">
 
