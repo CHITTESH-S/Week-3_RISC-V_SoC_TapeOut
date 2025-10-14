@@ -12,10 +12,10 @@
 
 ---
 
-## 📂 Recommended repository layout
+## 📂 Folder Structure
 
 ```
-BabySoC/
+VSDBabySoC/
 ├─ src/
 │  ├─ module/
 │  │  ├─ vsdbabysoc.v
@@ -36,7 +36,7 @@ BabySoC/
 
 ---
 
-## 🧭 Synthesis (Yosys) — Step-by-Step
+# 🧭 Synthesis (Yosys) — Step-by-Step
 
 1. 🔁 Start Yosys:
 
@@ -163,7 +163,7 @@ write_verilog -noattr /home/chittesh/VLSI/VSDBabySoC/output/post_synth_sim/vsdba
 
 ---
 
-## 🧪 Part - 1: Post-Synthesis Simulation (GLS)
+# 🧪 Part - 1: Post-Synthesis Simulation (GLS)
 
 1. 🧾 Compile the testbench with the synthesized netlist (example using Icarus):
 
@@ -243,6 +243,8 @@ diff -u functional.out gls.out > functional_vs_gls.diff
 - 🧪 `post_synth_sim.vcd` (or `.wlf`) — GLS waveform dump
 - 🧾 `vsdbabysoc.synth.v` — synthesized netlist
 - 🖼️ GTKWave screenshots showing comparison
+
+> It's all given in the **outputs** folder
 
 ---
 
@@ -453,7 +455,6 @@ report_checks -path full > output/post_synth_sim/timing_checks.txt
 4. 🔎 Inside container you’ll see OpenSTA prompt `%` — ready for commands.
 
 ---
-
 
 
 
