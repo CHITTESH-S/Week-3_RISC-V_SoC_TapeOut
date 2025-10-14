@@ -456,5 +456,66 @@ report_checks -path full > output/post_synth_sim/timing_checks.txt
 
 ---
 
+## ▶ Interactive STA flow
+1. 📖 Load standard cells (typical/tt corner):
+   ```tcl
+   read_liberty /data/OpenSTA/examples/timing_libs/sky130_fd_sc_hd__tt_025C_1v80.lib
+   ```
+2. 🔌 Read gate netlist:
+   ```tcl
+   read_verilog /data/OpenSTA/examples/BabySoC/vsdbabysoc.synth.v
+   ```
+3. 🔗 Link design (creates the timing graph):
+   ```tcl
+   link_design vsdbabysoc
+   ```
+4. 🧾 Load SDC (clocks, constraints, exceptions):
+   ```tcl
+   read_sdc /data/OpenSTA/examples/BabySoC/vsdbabysoc_synthesis.sdc
+   ```
+5. ⏰ Define or verify clocks:
+   ```tcl
+   create_clock -name clk -period 10 [get_ports clk]
+   set_input_delay -clock clk 0 {in1 in2}
+   report_checks
+   ```
+   
+> * By default, `report_checks` performs **setup (max delay)** checks.
+
+6. 📊 Run setup & hold checks:
+   ```tcl
+   report_checks -path_delay min_max 
+   ```
+   
+7. 📊 View only **hold (min delay)** paths:
+
+  ```tcl
+  report_checks -path_delay min
+  ```
+
+. 📉 Pull summary stats:
+   ```tcl
+   report_worst_slack -max     # worst setup (WNS)
+   report_worst_slack -min     # worst hold
+   report_tns                  # total negative slack
+   report_wns                  # worst negative slack
+   ```
+
+---
+
+## ⚡ SPEF-Based Parasitic Timing Analysis
+
+To perform more realistic STA with parasitic RC information:
+
+```tcl
+read_liberty /OpenSTA/examples/nangate45_slow.lib.gz
+read_verilog /OpenSTA/examples/example1.v
+link_design top
+read_spef /OpenSTA/examples/example1.dspef
+create_clock -name clk -period 10 {clk1 clk2 clk3}
+set_input_delay -clock clk 0 {in1 in2}
+report_checks
+```
+
 
 
