@@ -6,9 +6,9 @@
 
 ## 🚀 Quick summary
 
-🔍 **What:** Run synthesis (Yosys) -> produce gate-level netlist -> run Gate-Level Simulation (GLS) with/without SDF -> inspect waveforms (GTKWave) -> compare against RTL/functional simulation.
+🔍 Goal: Validate functionality after synthesis and guarantee timing closure for the VSDBabySoC using GLS and OpenSTA.
 
-🎯 **Goal:** Confirm that the synthesized design (`vsdbabysoc.synth.v`) behaves identically to the RTL model for the provided test vectors and capture evidence for deliverables.
+⚡ Outcome: Gate‑level netlist, GLS waveform comparison, per‑corner STA reports (WNS, TNS), and suggested fixes for violations.
 
 ---
 
@@ -277,7 +277,7 @@ Attached: synth.log, pre_synth_sim.out, pre_synth_sim.vcd, post_synth_sim.out, p
 
 ---
 
-## 🧩 Setup & Hold checks — core ideas (icons + lines)
+## 🧩 Setup & Hold checks
 
 ⚠️ **What they check:**  
   - Setup: data must arrive and be stable *before* the capture clock edge (so the downstream flop samples valid data).  
@@ -416,3 +416,44 @@ report_checks -path full > output/post_synth_sim/timing_checks.txt
 - 🧰 Prepare `constraints.sdc` with generated clocks and uncertainties; run OpenSTA to get `opensta_timing_report.txt` and `timing_checks.txt`. 
 
 ---
+
+# 🧩 Part - 3: Installation of STA (Static Timing Analysis) and Generating Timing Graphs with OpenSTA
+
+## 🧾 Executive summary
+
+- 🎯 Goal: Run OpenSTA on the synthesized vsdbabysoc.synth.v, generate per-corner timing reports (min/max), extract WNS / TNS / WNS per corner, and produce timing graphs.
+
+- ✅ Outcome: one-shot interactive flow + non-interactive TCL scripts for single-corner and multi-corner (PVT) runs, plus reporting / troubleshooting guidance.
+
+---
+
+## 📦 Quick checklist (what you must have)
+- 📥 `vsdbabysoc.synth.v` — Yosys gate-level netlist.  
+- 📚 `*.lib` — Liberty timing libraries for each PVT corner (e.g. `sky130_*`).  
+- 🗂 `vsdbabysoc_synthesis.sdc` — SDC constraints (clocks, delays, exceptions).  
+- 🧩 `sky130_fd_sc_hd.v` & `primitives.v` — cell Verilog models (for GLS if needed).  
+- 🐳 Docker + local workspace to mount into the OpenSTA container.
+
+---
+
+## 🐳 Install & launch OpenSTA (Docker)
+1. 🔁 `git clone` OpenSTA:
+   ```bash
+   git clone https://github.com/parallaxsw/OpenSTA.git
+   cd OpenSTA
+   ```
+2. 🏗️ Build Docker image:
+   ```bash
+   docker build --file Dockerfile.ubuntu22.04 --tag opensta .
+   ```
+3. 🚀 Run interactive container (mount host `$HOME` to `/data`):
+   ```bash
+   docker run -it -v $HOME:/data opensta
+   ```
+4. 🔎 Inside container you’ll see OpenSTA prompt `%` — ready for commands.
+
+---
+
+
+
+
