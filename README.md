@@ -456,6 +456,10 @@ report_checks -path full > output/post_synth_sim/timing_checks.txt
 
 ---
 
+## 🧩 Example used:
+
+
+
 ## ▶ Interactive STA flow
 1. 📖 Load standard cells (typical/tt corner):
    ```tcl
@@ -505,6 +509,9 @@ report_checks -path full > output/post_synth_sim/timing_checks.txt
 
 ## ⚡ SPEF-Based Parasitic Timing Analysis
 
+- 📌 **Why:** SPEF/DSPEF adds post-layout RC; gives realistic net delays and better sign-off accuracy.  
+- 🔧 **How:** `read_spef <path>` before `report_checks`. Ensure net naming in SPEF matches your netlist (PAR can rename nets).
+
 To perform more realistic STA with parasitic RC information:
 
 ```tcl
@@ -517,5 +524,136 @@ set_input_delay -clock clk 0 {in1 in2}
 report_checks
 ```
 
+---
+
+## 🧾 Useful per-path fields:
+- 🧭 `capacitance` — shows node cap; high → candidate for buffering.  
+- ↗️ `slew` — reveals driver slew that increases delay.  
+- 🧷 `input_pins` — endpoint pin info for traceability.  
+- ⚖️ `fanout` — high fanout suggests buffering or sizing.  
+- 🔢 `-digits 4` — readable precision.
+
+Examples:
+```tcl
+report_checks -digits 4 -fields capacitance
+```
+
+```tcl
+report_checks -digits 4 -fields {capacitance slew input_pins fanout}
+```
+
+```tcl
+report_power
+report_pulse_width_checks
+report_units
+```
+
+---
+
+## 🧰 Automate: single-corner script (`min_max_delays.tcl`)
+```tcl
+# min_max_delays.tcl
+read_liberty -max /data/.../nangate45_slow.lib
+read_liberty -min /data/.../nangate45_fast.lib
+
+read_verilog /data/.../example1.v
+link_design top
+create_clock -name clk -period 10 {clk1 clk2 clk3}
+set_input_delay -clock clk 0 {in1 in2}
+
+report_checks -path_delay min_max -fields {capacitance slew fanout} -digits 4 > /data/.../min_max_report.txt
+report_worst_slack -max -digits 4 >> /data/.../sta_worst_max_slack.txt
+report_worst_slack -min -digits 4 >> /data/.../sta_worst_min_slack.txt
+report_tns -digits 4 >> /data/.../sta_tns.txt
+report_wns -digits 4 >> /data/.../sta_wns.txt
+```
+- ▶ Run non-interactive:
+  ```bash
+  docker run -it -v $HOME:/data opensta /data/path/to/min_max_delays.tcl
+  ```
+
+---
+
+## 🔁 Automate: multi-corner PVT script (`sta_across_pvt.tcl`)
+```tcl
+# define corners
+set list_of_lib_files {
+ "sky130_fd_sc_hd__tt_025C_1v80.lib"
+ "sky130_fd_sc_hd__ff_100C_1v95.lib"
+ "sky130_fd_sc_hd__ss_n40C_1v28.lib"
+}
+
+# read constant IP libs
+read_liberty /data/.../timing_libs/avsdpll.lib
+read_liberty /data/.../timing_libs/avsddac.lib
+
+# loop
+foreach lib $list_of_lib_files {
+  read_liberty /data/.../timing_libs/$lib
+  read_verilog /data/.../BabySoC/vsdbabysoc.synth.v
+  link_design vsdbabysoc
+  read_sdc /data/.../BabySoC/vsdbabysoc_synthesis.sdc
+
+  report_checks -path_delay min_max -fields {nets cap slew input_pins fanout} -digits 4 > /data/.../STA_OUTPUT/min_max_$lib.txt
+
+  exec echo "$lib" >> /data/.../STA_OUTPUT/sta_worst_max_slack.txt
+  report_worst_slack -max -digits 4 >> /data/.../STA_OUTPUT/sta_worst_max_slack.txt
+
+  exec echo "$lib" >> /data/.../STA_OUTPUT/sta_worst_min_slack.txt
+  report_worst_slack -min -digits 4 >> /data/.../STA_OUTPUT/sta_worst_min_slack.txt
+
+  exec echo "$lib" >> /data/.../STA_OUTPUT/sta_tns.txt
+  report_tns -digits 4 >> /data/.../STA_OUTPUT/sta_tns.txt
+
+  exec echo "$lib" >> /data/.../STA_OUTPUT/sta_wns.txt
+  report_wns -digits 4 >> /data/.../STA_OUTPUT/sta_wns.txt
+}
+```
+- ✅ **Tip:** precreate `STA_OUTPUT/` and add `exec date >> file` lines for timestamps.
+
+---
+
+## 📂 Expected outputs — collect these files
+- 📄 `STA_OUTPUT/min_max_<lib>.txt` — detailed per-corner path reports.  
+- 📄 `STA_OUTPUT/sta_worst_max_slack.txt` — worst setup slack per corner (WNS).  
+- 📄 `STA_OUTPUT/sta_worst_min_slack.txt` — worst hold slack per corner.  
+- 📄 `STA_OUTPUT/sta_tns.txt` — Total Negative Slack per corner.  
+- 📄 `STA_OUTPUT/sta_wns.txt` — Worst Negative Slack per corner.  
+- 🖼 `opensta_console_<user>_<date>.png` — screenshot (include `whoami` + `date`).  
+- 🖼 `critical_path_<corner>.png` — screenshot of a `report_timing`/critical path.
+
+---
+
+## 🔎 Example interpretation — per-path excerpt (how to read)
+```
+Cap     Delay    Time     Description
+275.9346 2.5838  2.5838  ^ r2/Q (DFF_X1)
+275.9392 2.5778  5.1617  ^ u1/Z (BUF_X1)
+276.1091 2.7520  7.9137  ^ u2/ZN (AND2_X1)
+...
+10.0000  10.0000 10.0000 ^ r3/CK (DFF_X1)
+-0.5697   9.4303  9.4303 data required time
+--------------------------------------------
+slack = required - arrival = 9.4303 - 7.9150 = 1.5153 (MET)
+```
+- 🔎 **Actionable:** large `Cap`/`Delay` rows indicate heavy nets — consider buffering, downsizing fanout, or changing cell to a faster drive.
+
+---
+
+## 📊 Example results table (sample)
+- ✅ `tt_025C_1v80` — WNS: **+0.45 ns**, TNS: **0** → timing met.  
+- ✅ `ff_100C_1v65` — WNS: **+0.62 ns**, TNS: **0** → faster corner.  
+- ⚠ `ss_n40C_1v28` — WNS: **−0.37 ns**, TNS: **−1.10 ns** → timing violation (fix required).
+
+---
+
+## ✅ Final checklist before submission
+- ☑ `vsdbabysoc.synth.v` is present and readable.  
+- ☑ All targeted `.lib` files are in `timing_libs/`.  
+- ☑ `vsdbabysoc_synthesis.sdc` contains correct clocks & exceptions.  
+- ☑ `STA_OUTPUT/` contains `min_max_*.txt` and aggregated stats.  
+- ☑ Screenshots for Output.
+
+---
 
 
