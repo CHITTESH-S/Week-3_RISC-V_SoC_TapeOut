@@ -448,17 +448,27 @@ report_checks -path full > output/post_synth_sim/timing_checks.txt
    ```bash
    docker build --file Dockerfile.ubuntu22.04 --tag opensta .
    ```
+<div align="center">
+
+<img width="1024" height="1024" alt="docker_build_sta" src="https://github.com/user-attachments/assets/57fda27e-4ac0-4ea3-ba17-198c576863a4" />
+
+</div>
+
 3. 🚀 Run interactive container (mount host `$HOME` to `/data`):
    ```bash
    docker run -it -v $HOME:/data opensta
    ```
+<div align="center">
+
+<img width="1024" height="1024" alt="docker_run_sta" src="https://github.com/user-attachments/assets/586c341a-d164-4ab0-83d5-1a7f761d9337" />
+
+</div>
+
 4. 🔎 Inside container you’ll see OpenSTA prompt `%` — ready for commands.
 
 ---
 
 ## 🧩 Example used:
-
-
 
 ## ▶ Interactive STA flow
 1. 📖 Load standard cells (typical/tt corner):
@@ -483,19 +493,40 @@ report_checks -path full > output/post_synth_sim/timing_checks.txt
    set_input_delay -clock clk 0 {in1 in2}
    report_checks
    ```
-   
+<div align="center">
+
+<img width="1024" height="1024" alt="report_checks" src="https://github.com/user-attachments/assets/f81f7156-e1fe-407e-afa4-65341778e891" />
+
+</div>
+
 > * By default, `report_checks` performs **setup (max delay)** checks.
 
 6. 📊 Run setup & hold checks:
    ```tcl
    report_checks -path_delay min_max 
    ```
-   
-7. 📊 View only **hold (min delay)** paths:
+
+7. 📊 View only **Setup (max delay)** paths:
 
   ```tcl
   report_checks -path_delay min
   ```
+<div align="center">
+
+<img width="1024" height="1024" alt="report_checks_max" src="https://github.com/user-attachments/assets/7a4568a8-2a27-40e2-b682-90eeff354bc2" />
+
+</div>
+   
+8. 📊 View only **hold (min delay)** paths:
+
+  ```tcl
+  report_checks -path_delay min
+  ```
+<div align="center">
+
+<img width="1024" height="1024" alt="report_checks_min" src="https://github.com/user-attachments/assets/3cb12ec2-9697-4a65-a7d8-484e46a30e9c" />
+
+</div>
 
 . 📉 Pull summary stats:
    ```tcl
@@ -523,6 +554,11 @@ create_clock -name clk -period 10 {clk1 clk2 clk3}
 set_input_delay -clock clk 0 {in1 in2}
 report_checks
 ```
+<div align="center">
+
+<img width="1024" height="1024" alt="spef_record_checks" src="https://github.com/user-attachments/assets/1439b13f-c501-4452-af85-ed4140fa750e" />
+
+</div>
 
 ---
 
@@ -537,16 +573,31 @@ Examples:
 ```tcl
 report_checks -digits 4 -fields capacitance
 ```
+<div align="center">
+
+<img width="1024" height="1024" alt="cap_record_checks" src="https://github.com/user-attachments/assets/276a679a-07db-448d-8744-7b6e557b948e" />
+
+</div>
 
 ```tcl
 report_checks -digits 4 -fields {capacitance slew input_pins fanout}
 ```
+<div align="center">
+
+<img width="1024" height="1024" alt="slew_inputs_fanout" src="https://github.com/user-attachments/assets/bb24c9df-f8eb-4655-a2e0-d2addb1ac44a" />
+
+</div>
 
 ```tcl
 report_power
 report_pulse_width_checks
 report_units
 ```
+<div align="center">
+
+<img width="1024" height="1024" alt="power_pulsewidth_units_report_checks" src="https://github.com/user-attachments/assets/43aa7586-f1ed-46d0-aa1c-b02d267a7338" />
+
+</div>
 
 ---
 
@@ -656,15 +707,29 @@ slack = required - arrival = 9.4303 - 7.9150 = 1.5153 (MET)
 
 ---
 
-## References & Resources
+## 🙌 Acknowledgements  
 
-- 🔗 VSDBabySoC — https://github.com/manili/VSDBabySoC  
-- 🔗 RISC‑V Specification — https://riscv.org/  
-- 🔗 TL‑Verilog Guide — https://www.redwoodeda.com/  
-- 🔗 Icarus Verilog — http://iverilog.icarus.com/  
-- 🔗 GTKWave — http://gtkwave.sourceforge.net/
+👨‍🏫 **Kunal Ghosh** – VSD SoC Program Mentor  
+
+🧑‍🤝‍🧑 **Open-source EDA Community** – Tool contributors & maintainers  
+
+🌍 **RISC-V & Efabless Ecosystem** – Enabling open tapeout programs  
 
 ---
+
+## 🔗 References & Resources
+
+💡 I sincerely thank all the organizations and their key members for making this program possible:
+
+- 🧑‍🏫 **VLSI System Design (VSD)** – [Kunal Ghosh](https://www.linkedin.com/in/kunal-ghosh-vlsisystemdesign-com-28084836/) for mentorship and vision.
+- 🤝 **Efabless** – [Michael Wishart](https://www.linkedin.com/in/mike-wishart-81480612/) & [Mohamed Kassem](https://www.linkedin.com/in/mkkassem/) for enabling collaborative open-source chip design.
+- 🏭 [**Semiconductor Laboratory (SCL)**](https://www.scl.gov.in/) – for PDK & foundry support.
+- 🎓 [**IIT Gandhinagar (IITGN)**](https://www.linkedin.com/school/indian-institute-of-technology-gandhinagar-iitgn-/?originalSubdomain=in) – for on-site training & project facilitation.
+- 🛠️ **Synopsys** – [Sassine Ghazi](https://www.linkedin.com/in/sassine-ghazi/) for providing industry-grade EDA tools under C2S program.
+
+---
+
+## 🔗 Repository Links
 
 👉 **Week-0 Repository Link:** https://github.com/CHITTESH-S/Week-0_RISC-V_SoC_TapeOut
 
@@ -676,5 +741,6 @@ slack = required - arrival = 9.4303 - 7.9150 = 1.5153 (MET)
 
 👉 **Main Repository Link:** https://github.com/CHITTESH-S/RISC-V_SoC_TapeOut_VSD
 
-👨‍💻 **Contributor:** Chittesh S
+👨‍💻 **Contributor**: [Chittesh S](https://github.com/CHITTESH-S)  
 
+---
