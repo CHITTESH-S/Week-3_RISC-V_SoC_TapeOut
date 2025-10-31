@@ -36,7 +36,7 @@ VSDBabySoC/
 
 ---
 
-# 🧭 Synthesis (Yosys) — Step-by-Step
+# 🧭 Synthesis (Yosys)
 
 1. 🔁 Start Yosys:
 
@@ -468,7 +468,39 @@ report_checks -path full > output/post_synth_sim/timing_checks.txt
 
 ---
 
-## 🧩 Example used:
+## 🔍 Example used: example1.v
+
+<div align="center">
+
+<img width="1024" height="1024" alt="example1" src="https://github.com/user-attachments/assets/361b44c9-fc9e-4dc6-b94b-33a4b58717e3" />
+
+</div>
+
+# 🧭 Synthesis (Yosys)
+
+```yosys
+yosys> read_liberty -lib nangate45_slow.lib
+yosys> read_verilog example1.v
+yosys> synth -top top
+yosys> show
+```
+<div align="center">
+
+<img width="1024" height="1024" alt="yosys" src="https://github.com/user-attachments/assets/1f999fec-3b39-4607-afab-c649921c518e" />
+
+</div>
+
+<div align="center">
+
+<img width="1024" height="1024" alt="yosys_top" src="https://github.com/user-attachments/assets/366e7963-a3ba-46b7-b851-a0356a0b51cc" />
+
+</div>
+
+<div align="center">
+
+<img width="1024" height="1024" alt="yosys_show" src="https://github.com/user-attachments/assets/36f29828-05f6-4493-96ab-6264859f6d83" />
+
+</div>
 
 ## ▶ Interactive STA flow
 1. 📖 Load standard cells (typical/tt corner):
