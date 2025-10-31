@@ -656,4 +656,25 @@ slack = required - arrival = 9.4303 - 7.9150 = 1.5153 (MET)
 
 ---
 
+## References & Resources
+
+- 🔗 VSDBabySoC — https://github.com/manili/VSDBabySoC  
+- 🔗 RISC‑V Specification — https://riscv.org/  
+- 🔗 TL‑Verilog Guide — https://www.redwoodeda.com/  
+- 🔗 Icarus Verilog — http://iverilog.icarus.com/  
+- 🔗 GTKWave — http://gtkwave.sourceforge.net/
+
+---
+
+👉 **Week-0 Repository Link:** https://github.com/CHITTESH-S/Week-0_RISC-V_SoC_TapeOut
+
+👉 **Week-1 Repository Link:** https://github.com/CHITTESH-S/Week-1_RISC-V_SoC_TapeOut
+
+👉 **Week-2 Repository Link:** https://github.com/CHITTESH-S/Week-2_RISC-V_SoC_TapeOut
+
+👉 **Week-4 Repository Link:** https://github.com/CHITTESH-S/Week-4_RISC-V_SoC_TapeOut
+
+👉 **Main Repository Link:** https://github.com/CHITTESH-S/RISC-V_SoC_TapeOut_VSD
+
+👨‍💻 **Contributor:** Chittesh S
 
